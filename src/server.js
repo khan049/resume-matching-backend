@@ -1,6 +1,8 @@
 require("dotenv").config();
 const app = require("./app");
 const connectDB = require("./config/db");
+require("./workers/resume.worker"); // 🔥 Start worker
+
 
 const PORT = process.env.PORT || 5000;
 
