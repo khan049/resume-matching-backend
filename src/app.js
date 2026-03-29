@@ -4,6 +4,8 @@ const cors = require("cors");
 const authRoutes = require("./modules/auth/auth.route");
 const jobRoutes = require("./modules/job/job.routes");
 const resumeRoutes = require("./modules/resume/resume.routes");
+const matchRoutes = require("./modules/match/match.routes");
+
 
 
 
@@ -14,6 +16,7 @@ app.use(express.json());
 app.use("/auth", authRoutes);
 app.use("/jobs", jobRoutes);
 app.use("/resumes", resumeRoutes);
+app.use("/match", matchRoutes);
 
 
 

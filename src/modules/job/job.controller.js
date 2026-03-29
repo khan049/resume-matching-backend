@@ -1,10 +1,16 @@
 const Job = require("./job.model");
+const logger = require("../../utils/logger");
 
 // Create Job
 exports.createJob = async (req, res) => {
   try {
     const { title, description, requiredSkills, optionalSkills, minExperience, location } = req.body;
-
+    
+    // VALIDATION HERE
+    if (!title || !description) {
+      return res.status(400).json({ message: "Title and description are required" });
+    }
+    
     const job = await Job.create({
       title,
       description,
@@ -14,6 +20,8 @@ exports.createJob = async (req, res) => {
       location,
       createdBy: req.user.userId
     });
+
+    logger.info("Job created successfully");
 
     res.status(201).json({ message: "Job created", job });
   } catch (err) {
