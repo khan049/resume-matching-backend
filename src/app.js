@@ -7,8 +7,6 @@ const resumeRoutes = require("./modules/resume/resume.routes");
 const matchRoutes = require("./modules/match/match.routes");
 
 
-
-
 const app = express();
 
 app.use(cors());

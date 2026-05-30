@@ -1,34 +1,22 @@
 const Resume = require("./resume.model");
 
-/**
- * Upload Resume (metadata only for now)
- * Async-ready design
- */
 exports.uploadResume = async (req, res) => {
   try {
-    const { fileName } = req.body;
-
-    if (!fileName) {
-      return res.status(400).json({ message: "File name required" });
+    if (!req.file) {
+      return res.status(400).json({ message: "No file uploaded" });
     }
 
     const resume = await Resume.create({
       candidateId: req.user.userId,
-      originalFileName: fileName,
-      storagePath: `/uploads/${fileName}`, // placeholder for now
+      originalFileName: req.file.originalname,
+      storagePath: req.file.location, // S3 URL
       status: "UPLOADED"
     });
 
-    /**
-     * IMPORTANT:
-     * We DO NOT process the resume here.
-     * This keeps API fast & scalable.
-     */
-
     res.status(201).json({
-      message: "Resume uploaded successfully",
+      message: "Resume uploaded to S3",
       resumeId: resume._id,
-      status: resume.status
+      fileUrl: req.file.location
     });
 
   } catch (err) {
